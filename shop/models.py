@@ -27,4 +27,22 @@ class Seller(models.Model):
 
 
 class Contact(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(max_length=50, unique=True, verbose_name='Contact email')
+    country = models.CharField(max_length=100, verbose_name='Contact country', **NULLABLE)
+    city = models.CharField(max_length=100, verbose_name='Contact city', **NULLABLE)
+    street = models.CharField(max_length=100, verbose_name='Contact street', **NULLABLE)
+    building = models.CharField(max_length=100, verbose_name='Contact building', **NULLABLE)
+    seller = models.ForeignKey('Seller', on_delete=models.CASCADE, verbose_name='Seller contact')
+
+    class Meta:
+        verbose_name = "Contact"
+        verbose_name_plural = "Contacts"
+
+    def __str__(self):
+        return self.email
+
+
+class Product(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Product title')
+    model = models.CharField(max_length=100, verbose_name='Product model')
+    date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='Product publish date')
