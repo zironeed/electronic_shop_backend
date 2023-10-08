@@ -46,3 +46,10 @@ class Product(models.Model):
     title = models.CharField(max_length=100, verbose_name='Product title')
     model = models.CharField(max_length=100, verbose_name='Product model')
     date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='Product publish date')
+
+    class Meta:
+        verbose_name = "Product"
+        verbose_name_plural = "Products"
+
+    def __str__(self):
+        return self.title
