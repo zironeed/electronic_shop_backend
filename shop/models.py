@@ -13,8 +13,7 @@ class Types(models.TextChoices):
 class Seller(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name='Seller name')
     type = models.CharField(choices=Types.choices, verbose_name='Seller type')
-    provider = models.ForeignKey('self', on_delete=models.CASCADE,
-                                 limit_choices_to=~Q(type=Types.factory), verbose_name='Seller provider', **NULLABLE)
+    provider = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Seller provider', **NULLABLE)
     credit = models.DecimalField(default=0, decimal_places=2, max_digits=100, verbose_name='Seller credit')
     creation_date = models.DateField(auto_now_add=True)
 
@@ -32,7 +31,7 @@ class Contact(models.Model):
     city = models.CharField(max_length=100, verbose_name='Contact city', **NULLABLE)
     street = models.CharField(max_length=100, verbose_name='Contact street', **NULLABLE)
     building = models.CharField(max_length=100, verbose_name='Contact building', **NULLABLE)
-    seller = models.ForeignKey('Seller', on_delete=models.CASCADE, verbose_name='Seller contact')
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name='Seller contact')
 
     class Meta:
         verbose_name = "Contact"

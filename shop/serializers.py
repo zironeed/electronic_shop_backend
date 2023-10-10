@@ -10,7 +10,6 @@ class ContactSerializer(serializers.ModelSerializer):
 
 
 class SellerSerializer(serializers.ModelSerializer):
-    contact = ContactSerializer()
 
     class Meta:
         model = Seller
