@@ -31,7 +31,7 @@ class Contact(models.Model):
     city = models.CharField(max_length=100, verbose_name='Contact city', **NULLABLE)
     street = models.CharField(max_length=100, verbose_name='Contact street', **NULLABLE)
     building = models.CharField(max_length=100, verbose_name='Contact building', **NULLABLE)
-    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name='Seller contact')
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name='Seller contact', related_name='contacts')
 
     class Meta:
         verbose_name = "Contact"
