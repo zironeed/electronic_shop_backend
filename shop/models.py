@@ -15,7 +15,7 @@ class Seller(models.Model):
     type = models.CharField(choices=Types.choices, verbose_name='Seller type')
     provider = models.ForeignKey('self', on_delete=models.CASCADE,
                                  limit_choices_to=~Q(type=Types.factory), verbose_name='Seller provider', **NULLABLE)
-    credit = models.DecimalField(default=0, decimal_places=2, verbose_name='Seller credit')
+    credit = models.DecimalField(default=0, decimal_places=2, max_digits=100, verbose_name='Seller credit')
     creation_date = models.DateField(auto_now_add=True)
 
     class Meta:
