@@ -16,5 +16,4 @@ urlpatterns = [
 
     path('create/contact/', ContactCreateView.as_view(), name='contact_create'),
     path('update/contact/<int:pk>/', ContactUpdateView.as_view(), name='contact_update'),
-    path('retrieve/contact/<int:pk>/', ContactRetrieveView.as_view(), name='contact_retrieve'),
 ]

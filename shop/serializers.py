@@ -9,6 +9,13 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class SellerCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Seller
+        exclude = ('creation_date', )
+
+
 class SellerSerializer(serializers.ModelSerializer):
     contacts = ContactSerializer(many=True)
 
