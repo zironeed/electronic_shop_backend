@@ -1,7 +1,8 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 
 from shop.models import Seller, Contact, Product
-from shop.serializers import SellerSerializer, ContactSerializer, ProductCreateSerializer, SellerCreateSerializer
+from shop.serializers import SellerSerializer, ContactSerializer, ProductCreateSerializer, SellerCreateSerializer, \
+    SellerProductSerializer
 
 
 class SellerListView(ListAPIView):
@@ -34,11 +35,6 @@ class ContactCreateView(CreateAPIView):
     queryset = Contact.objects.all()
 
 
-class ContactRetrieveView(RetrieveAPIView):
-    serializer_class = ContactSerializer
-    queryset = Contact.objects.all()
-
-
 class ContactUpdateView(UpdateAPIView):
     serializer_class = ContactSerializer
     queryset = Contact.objects.all()
@@ -56,4 +52,9 @@ class ProductUpdateView(UpdateAPIView):
 
 class ProductDestroyView(DestroyAPIView):
     serializer_class = ProductCreateSerializer
+    queryset = Product.objects.all()
+
+
+class ProductListView(ListAPIView):
+    serializer_class = SellerProductSerializer
     queryset = Product.objects.all()

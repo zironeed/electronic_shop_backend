@@ -43,5 +43,17 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         return value
 
 
+class ProductSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = Product
+        exclude = ('seller', )
+
+
+class SellerProductSerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True)
+
+    class Meta:
+        model = Seller
+        fields = '__all__'
 
