@@ -11,15 +11,14 @@ class ContactSerializer(serializers.ModelSerializer):
 
 class SellerCreateSerializer(serializers.ModelSerializer):
 
-    def create(self, validated_data):
-        new_seller = Seller.objects.create(**validated_data)
-
-        if new_seller.type == Types.factory and new_seller.provider:
-            raise serializers.ValidationError('Factories can not have providers')
-
     class Meta:
         model = Seller
         exclude = ('creation_date', )
+
+    def validate(self, attrs):
+        if attrs['type'] == Types.factory and attrs['provider']:
+            raise serializers.ValidationError('Factories cannot have providers')
+        return attrs
 
 
 class SellerSerializer(serializers.ModelSerializer):
