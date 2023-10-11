@@ -1,7 +1,7 @@
 from django.urls import path
 
 from shop.views import SellerCreateView, SellerDestroyView, SellerUpdateView, SellerListView, SellerRetrieveView, \
-    ContactCreateView, ContactUpdateView, ContactRetrieveView
+    ContactCreateView, ContactUpdateView, ProductListView, ProductDestroyView, ProductUpdateView, ProductCreateView
 
 from shop.apps import ShopConfig
 
@@ -16,4 +16,9 @@ urlpatterns = [
 
     path('create/contact/', ContactCreateView.as_view(), name='contact_create'),
     path('update/contact/<int:pk>/', ContactUpdateView.as_view(), name='contact_update'),
+
+    path('create/product/', ProductCreateView.as_view(), name='product_create'),
+    path('update/product/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
+    path('destroy/product/<int:pk>/', ProductDestroyView.as_view(), name='product_destroy'),
+    path('list/product/', ProductListView.as_view(), name='product_list'),
 ]
