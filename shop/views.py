@@ -57,4 +57,4 @@ class ProductDestroyView(DestroyAPIView):
 
 class ProductListView(ListAPIView):
     serializer_class = SellerProductSerializer
-    queryset = Product.objects.all()
+    queryset = Seller.objects.all()

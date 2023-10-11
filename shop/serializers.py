@@ -51,7 +51,12 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class SellerProductSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True)
+    products = serializers.SerializerMethodField()
+
+    def get_products(self, seller):
+        products = seller.products.all()
+        serializer = ProductSerializer(products, many=True)
+        return serializer.data
 
     class Meta:
         model = Seller
