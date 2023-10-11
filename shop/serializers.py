@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from shop.models import Seller, Contact, Product
+from shop.models import Seller, Contact, Product, Types
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -10,6 +10,12 @@ class ContactSerializer(serializers.ModelSerializer):
 
 
 class SellerCreateSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        new_seller = Seller.objects.create(**validated_data)
+
+        if new_seller.type == Types.factory and new_seller.provider:
+            raise serializers.ValidationError('Factories can not have providers')
 
     class Meta:
         model = Seller
@@ -24,8 +30,18 @@ class SellerSerializer(serializers.ModelSerializer):
         exclude = ('creation_date', )
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductCreateSerializer(serializers.ModelSerializer):
+    seller = serializers.PrimaryKeyRelatedField(queryset=Seller.objects.filter(type=Types.factory))
 
     class Meta:
         model = Product
         fields = '__all__'
+
+    def validate_seller(self, value):
+        if value.type != Types.factory:
+            raise serializers.ValidationError('Only Sellers of type "Factory" can be assigned to a Product.')
+        return value
+
+
+
+

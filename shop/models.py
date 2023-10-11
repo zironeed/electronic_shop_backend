@@ -45,6 +45,7 @@ class Product(models.Model):
     title = models.CharField(max_length=100, verbose_name='Product title')
     model = models.CharField(max_length=100, verbose_name='Product model')
     date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='Product publish date')
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name='Seller product', related_name='product')
 
     class Meta:
         verbose_name = "Product"
