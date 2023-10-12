@@ -10,6 +10,9 @@ class SellerListView(ListAPIView):
     serializer_class = SellerSerializer
     queryset = Seller.objects.all()
 
+    def get_queryset(self):
+        return Seller.objects.order_by('contacts__country')
+
 
 class SellerCreateView(CreateAPIView):
     serializer_class = SellerCreateSerializer
