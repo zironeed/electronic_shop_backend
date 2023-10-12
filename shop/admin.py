@@ -12,6 +12,7 @@ class SellerAdmin(admin.ModelAdmin):
     inlines = [ContactInline]
     list_display = ('name', 'type', 'provider_url', 'credit', 'creation_date')
     list_filter = ('contacts__city',)
+    actions = ['clean_credit']
 
     def get_fields(self, request, obj=None):
         fields = list(super().get_fields(request, obj))
@@ -20,6 +21,10 @@ class SellerAdmin(admin.ModelAdmin):
 
     def provider_url(self, obj):
         return f'http://127.0.0.1:8000/shop/retrieve/{obj.provider_id}/'
+
+    @admin.action
+    def clean_credit(self, request, queryset):
+        queryset.update(credit=0)
 
 
 @admin.register(Contact)
