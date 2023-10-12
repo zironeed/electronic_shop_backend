@@ -9,8 +9,6 @@ from shop.serializers import SellerSerializer, ContactSerializer, ProductCreateS
 class SellerListView(ListAPIView):
     serializer_class = SellerSerializer
     queryset = Seller.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['country']
 
 
 class SellerCreateView(CreateAPIView):

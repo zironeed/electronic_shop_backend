@@ -21,6 +21,10 @@ class SellerCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Factories cannot have providers')
         return attrs
 
+    def update(self, instance, validated_data):
+        validated_data.pop('credit', None)
+        return super().update(instance, validated_data)
+
 
 class SellerSerializer(serializers.ModelSerializer):
     contacts = ContactSerializer(many=True)
@@ -56,6 +60,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
                 product.save()
 
         return super().create(validated_data)
+
 
 class ProductSerializer(serializers.ModelSerializer):
 
