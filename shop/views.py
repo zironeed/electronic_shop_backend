@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
+from django_filters.rest_framework import DjangoFilterBackend
 
 from shop.models import Seller, Contact, Product
 from shop.serializers import SellerSerializer, ContactSerializer, ProductCreateSerializer, SellerCreateSerializer, \
@@ -8,6 +9,8 @@ from shop.serializers import SellerSerializer, ContactSerializer, ProductCreateS
 class SellerListView(ListAPIView):
     serializer_class = SellerSerializer
     queryset = Seller.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['country']
 
 
 class SellerCreateView(CreateAPIView):
@@ -58,3 +61,5 @@ class ProductDestroyView(DestroyAPIView):
 class ProductListView(ListAPIView):
     serializer_class = SellerProductSerializer
     queryset = Seller.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['country']
