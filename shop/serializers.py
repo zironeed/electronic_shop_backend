@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import serializers
 from shop.models import Seller, Contact, Product, Types
 
@@ -41,6 +42,20 @@ class ProductCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Only Sellers of type "Factory" can be assigned to a Product.')
         return value
 
+    def create(self, validated_data):
+        seller = validated_data['seller']
+        provider = seller.provider
+        products = seller.products.all()
+
+        validated_data.pop('seller')
+
+        for lower_seller in Seller.objects.filter(Q(provider=seller) | Q(provider=provider)):
+            if lower_seller.products.filter(id__in=products.values_list('id', flat=True)).count() == 0:
+                product = Product.objects.create(seller=lower_seller, **validated_data)
+                product.seller = seller
+                product.save()
+
+        return super().create(validated_data)
 
 class ProductSerializer(serializers.ModelSerializer):
 
@@ -53,7 +68,7 @@ class SellerProductSerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()
 
     def get_products(self, seller):
-        products = seller.products.all()
+        products = Product.objects.filter(Q(seller=seller) | Q(seller__provider=seller) | Q(seller__provider__provider=seller))
         serializer = ProductSerializer(products, many=True)
         return serializer.data
 
