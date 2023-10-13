@@ -35,31 +35,10 @@ class SellerSerializer(serializers.ModelSerializer):
 
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    seller = serializers.PrimaryKeyRelatedField(queryset=Seller.objects.filter(type=Types.factory))
 
     class Meta:
         model = Product
         fields = '__all__'
-
-    def validate_seller(self, value):
-        if value.type != Types.factory:
-            raise serializers.ValidationError('Only Sellers of type "Factory" can be assigned to a Product.')
-        return value
-
-    def create(self, validated_data):
-        seller = validated_data['seller']
-        provider = seller.provider
-        products = seller.products.all()
-
-        validated_data.pop('seller')
-
-        for lower_seller in Seller.objects.filter(Q(provider=seller) | Q(provider=provider)):
-            if lower_seller.products.filter(id__in=products.values_list('id', flat=True)).count() == 0:
-                product = Product.objects.create(seller=lower_seller, **validated_data)
-                product.seller = seller
-                product.save()
-
-        return super().create(validated_data)
 
 
 class ProductSerializer(serializers.ModelSerializer):
